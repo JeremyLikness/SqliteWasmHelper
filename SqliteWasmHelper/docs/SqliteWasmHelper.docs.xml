@@ -15,6 +15,27 @@
             </summary>
             <param name="jsRuntime">The <see cref="T:Microsoft.JSInterop.IJSRuntime"/> instance.</param>
         </member>
+        <member name="M:SqliteWasmHelper.BrowserCache.DisposeAsync">
+            <summary>
+            Disposes of the task that references the JavaScript module.
+            </summary>
+            <returns>A task to await.</returns>
+        </member>
+        <member name="M:SqliteWasmHelper.BrowserCache.SyncDbWithCacheAsync(System.String)">
+            <summary>
+            Calls the code to check save to/restore from cache.
+            </summary>
+            <param name="filename">The name of the file to process.</param>
+            <returns>Either -1 (no cache), 0 (restored), or 1 (cached).</returns>
+        </member>
+        <member name="M:SqliteWasmHelper.BrowserCache.GenerateDownloadLinkAsync(Microsoft.AspNetCore.Components.ElementReference,System.String)">
+            <summary>
+            Creates an anchor tag to download the database and injects it into the parent.
+            </summary>
+            <param name="parent">The host for the tag.</param>
+            <param name="filename">The database filename.</param>
+            <returns>A value indicating whether the operation was successful.</returns>
+        </member>
         <member name="T:SqliteWasmHelper.Extensions">
             <summary>
             Extensions for ease of use.
@@ -41,6 +62,60 @@
             </param>
             <param name="lifetime">Lifetime of the service.</param>
             <returns>The service implementation.</returns>
+        </member>
+        <member name="T:SqliteWasmHelper.ISqliteWasmDbContextFactory`1">
+            <summary>
+            Interface for custom factory.
+            </summary>
+            <typeparam name="TContext">The <see cref="T:Microsoft.EntityFrameworkCore.DbContext"/> to create.</typeparam>
+        </member>
+        <member name="M:SqliteWasmHelper.ISqliteWasmDbContextFactory`1.CreateDbContextAsync">
+            <summary>
+            Gets the <see cref="T:Microsoft.EntityFrameworkCore.DbContext"/>.
+            </summary>
+            <returns>The new context.</returns>
+        </member>
+        <member name="T:SqliteWasmHelper.SqliteWasmDbContextFactory`1">
+            <summary>
+            Defers sending back the context until the database is restored, and backs up on
+            succcessful saves.
+            </summary>
+            <typeparam name="TContext">The <see cref="T:Microsoft.EntityFrameworkCore.DbContext"/>.</typeparam>
+        </member>
+        <member name="M:SqliteWasmHelper.SqliteWasmDbContextFactory`1.#ctor(Microsoft.EntityFrameworkCore.IDbContextFactory{`0},SqliteWasmHelper.BrowserCache)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SqliteWasmHelper.SqliteWasmDbContextFactory`1"/> class.
+            </summary>
+            <param name="dbContextFactory">The EF Core-provided factory.</param>
+            <param name="cache">The <see cref="T:SqliteWasmHelper.BrowserCache"/> helper.</param>
+        </member>
+        <member name="P:SqliteWasmHelper.SqliteWasmDbContextFactory`1.Filename">
+            <summary>
+            Gets an easy reference to filename. Only accessed after initialization.
+            </summary>
+        </member>
+        <member name="P:SqliteWasmHelper.SqliteWasmDbContextFactory`1.BackupFile">
+            <summary>
+            Gets an easy reference to the backup file.
+            </summary>
+        </member>
+        <member name="M:SqliteWasmHelper.SqliteWasmDbContextFactory`1.GetFilenameForType">
+            <summary>
+            Gets the cached filenames for each <see cref="T:Microsoft.EntityFrameworkCore.DbContext"/> type.
+            </summary>
+            <returns>The name or null.</returns>
+        </member>
+        <member name="M:SqliteWasmHelper.SqliteWasmDbContextFactory`1.CreateDbContextAsync">
+            <summary>
+            Create a new <see cref="T:Microsoft.EntityFrameworkCore.DbContext"/>.
+            </summary>
+            <returns>The new instance.</returns>
+        </member>
+        <member name="M:SqliteWasmHelper.SqliteWasmDbContextFactory`1.GetFilename">
+            <summary>
+            Method called once to reverse engineer filename from connection string.
+            </summary>
+            <returns>The filename.</returns>
         </member>
     </members>
 </doc>

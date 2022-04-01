@@ -1,17 +1,33 @@
-﻿using Microsoft.Data.Sqlite;
+﻿// <copyright file="SqliteWasmDbContextFactory.cs" company="Jeremy Likness">
+// Copyright (c) Jeremy Likness. All rights reserved.
+// </copyright>
+
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
 namespace SqliteWasmHelper
 {
-    public class SqliteWasmDbContextFactory<TContext> where TContext : DbContext
+    /// <summary>
+    /// Defers sending back the context until the database is restored, and backs up on
+    /// succcessful saves.
+    /// </summary>
+    /// <typeparam name="TContext">The <see cref="DbContext"/>.</typeparam>
+    public class SqliteWasmDbContextFactory<TContext> : ISqliteWasmDbContextFactory<TContext>
+        where TContext : DbContext
     {
+        private static readonly IDictionary<Type, string> FileNames = new Dictionary<Type, string>();
+
         private readonly IDbContextFactory<TContext> dbContextFactory;
-        private static readonly IDictionary<Type, string> fileNames = new Dictionary<Type, string>();
         private readonly BrowserCache cache;
         private Task<int>? startupTask = null;
         private int lastStatus = -2;
         private bool init = false;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SqliteWasmDbContextFactory{TContext}"/> class.
+        /// </summary>
+        /// <param name="dbContextFactory">The EF Core-provided factory.</param>
+        /// <param name="cache">The <see cref="BrowserCache"/> helper.</param>
         public SqliteWasmDbContextFactory(
             IDbContextFactory<TContext> dbContextFactory,
             BrowserCache cache)
@@ -21,46 +37,85 @@ namespace SqliteWasmHelper
             startupTask = RestoreAsync();
         }
 
-        public static string? GetFilenameForType() => 
-            fileNames.ContainsKey(typeof(TContext)) ? fileNames[typeof(TContext)] : null;
+        /// <summary>
+        /// Gets an easy reference to filename. Only accessed after initialization.
+        /// </summary>
+        private static string Filename => FileNames[typeof(TContext)];
 
+        /// <summary>
+        /// Gets an easy reference to the backup file.
+        /// </summary>
+        private static string BackupFile => $"{SqliteWasmDbContextFactory<TContext>.Filename}_bak";
+
+        /// <summary>
+        /// Gets the cached filenames for each <see cref="DbContext"/> type.
+        /// </summary>
+        /// <returns>The name or null.</returns>
+        public static string? GetFilenameForType() =>
+            FileNames.ContainsKey(typeof(TContext)) ? FileNames[typeof(TContext)] : null;
+
+        /// <summary>
+        /// Create a new <see cref="DbContext"/>.
+        /// </summary>
+        /// <returns>The new instance.</returns>
         public async Task<TContext> CreateDbContextAsync()
         {
+            // first time should wait for restore to happen
             await CheckForStartupTaskAsync();
 
+            // grab the context
             var ctx = await dbContextFactory.CreateDbContextAsync();
 
             if (!init)
             {
+                // first time, it should be created
                 await ctx.Database.EnsureCreatedAsync();
                 init = true;
             }
 
+            // hook into saved changes
             ctx.SavedChanges += (o, e) => Ctx_SavedChanges(ctx, e);
 
             return ctx;
         }
 
-        private string Filename => fileNames[typeof(TContext)];
-        private string BackupFile => $"{Filename}_bak";
+        private static void DoSwap(string source, string target)
+        {
+            using var src = new SqliteConnection($"Data Source={source}");
+            using var tgt = new SqliteConnection($"Data Source={target}");
 
+            src.Open();
+            tgt.Open();
+
+            src.BackupDatabase(tgt);
+
+            tgt.Close();
+            src.Close();
+        }
+
+        /// <summary>
+        /// Method called once to reverse engineer filename from connection string.
+        /// </summary>
+        /// <returns>The filename.</returns>
         private string GetFilename()
         {
             using var ctx = dbContextFactory.CreateDbContext();
             var filename = "filenotfound.db";
             var type = ctx.GetType();
-            if (fileNames.ContainsKey(type))
+            if (FileNames.ContainsKey(type))
             {
-                return fileNames[type];
+                return FileNames[type];
             }
+
             var cs = ctx.Database.GetConnectionString();
+
             if (cs != null)
             {
                 var file = cs.Split(';').Select(s => s.Split('='))
                     .Select(split => new
                     {
                         key = split[0].ToLowerInvariant(),
-                        value = split[1]
+                        value = split[1],
                     })
                     .Where(kv => kv.key.Contains("data source") ||
                     kv.key.Contains("datasource") ||
@@ -72,7 +127,8 @@ namespace SqliteWasmHelper
                     filename = file;
                 }
             }
-            fileNames.Add(type, filename);
+
+            FileNames.Add(type, filename);
             return filename;
         }
 
@@ -83,46 +139,33 @@ namespace SqliteWasmHelper
                 lastStatus = await startupTask;
                 startupTask.Dispose();
                 startupTask = null;
-                
-                if (lastStatus == 0)
-                {
-                    DoSwap(BackupFile, Filename);
-                }
             }
         }
 
         private async void Ctx_SavedChanges(TContext ctx, SavedChangesEventArgs e)
         {
-            await CheckForStartupTaskAsync();
             await ctx.Database.CloseConnectionAsync();
+            await CheckForStartupTaskAsync();
             if (e.EntitiesSavedCount > 0)
             {
-                var backupName = $"{BackupFile}-{Guid.NewGuid().ToString().Split('-')[0]}";
-                DoSwap(Filename, backupName);
+                // unique to avoid conflicts. Is deleted after cahcing.
+                var backupName =
+                    $"{SqliteWasmDbContextFactory<TContext>.BackupFile}-{Guid.NewGuid().ToString().Split('-')[0]}";
+                DoSwap(SqliteWasmDbContextFactory<TContext>.Filename, backupName);
                 lastStatus = await cache.SyncDbWithCacheAsync(backupName);
             }
-        }            
-
-        private Task<int> RestoreAsync()
-        {
-            var filename = $"{GetFilename()}_bak";
-            return cache.SyncDbWithCacheAsync(filename);
         }
 
-        private static void DoSwap(string source, string target)
+        private async Task<int> RestoreAsync()
         {
-            using var src = new SqliteConnection($"Data Source={source}");
-            using var tgt = new SqliteConnection($"Data Source={target}");
+            var filename = $"{GetFilename()}_bak";
+            lastStatus = await cache.SyncDbWithCacheAsync(filename);
+            if (lastStatus == 0)
+            {
+                DoSwap(filename, FileNames[typeof(TContext)]);
+            }
 
-            Console.WriteLine($"Backing up {source} to {target}");
-
-            src.Open();
-            tgt.Open();
-
-            src.BackupDatabase(tgt);
-
-            tgt.Close();
-            src.Close();
+            return lastStatus;
         }
     }
 }

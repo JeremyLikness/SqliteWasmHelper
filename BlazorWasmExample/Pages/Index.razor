@@ -2,7 +2,7 @@
 @using SqliteWasmHelper
 @using BlazorWasmExample.Data
 @using Microsoft.EntityFrameworkCore
-@inject SqliteWasmDbContextFactory<ThingContext> Factory
+@inject ISqliteWasmDbContextFactory<ThingContext> Factory
 
 <PageTitle>Index</PageTitle>
 
@@ -39,6 +39,12 @@ Download backup:
     private BackupLink bl = null!;
     private string newThing = string.Empty;
     private Thing[] things = Array.Empty<Thing>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await RefreshUiAsync();
+        await base.OnInitializedAsync();
+    }
 
     private async Task RefreshUiAsync()
     {

@@ -29,9 +29,7 @@ namespace SqliteWasmHelper
             where TContext : DbContext
         => AddSqliteWasmDbContextFactory<TContext>(
             serviceCollection,
-            optionsAction == null
-            ? null
-            : (_, oa) => optionsAction(oa),
+            optionsAction == null ? null : (_, oa) => optionsAction(oa),
             lifetime);
 
         /// <summary>
@@ -57,14 +55,12 @@ namespace SqliteWasmHelper
 
             serviceCollection.TryAdd(
                 new ServiceDescriptor(
-                    typeof(SqliteWasmDbContextFactory<TContext>),
+                    typeof(ISqliteWasmDbContextFactory<TContext>),
                     typeof(SqliteWasmDbContextFactory<TContext>),
                     ServiceLifetime.Singleton));
 
             serviceCollection.AddDbContextFactory<TContext>(
-                optionsAction == null ?
-                (s, p) => { }
-            : optionsAction, lifetime);
+                optionsAction ?? ((s, p) => { }), lifetime);
 
             return serviceCollection;
         }
