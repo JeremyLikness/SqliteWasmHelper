@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SqliteWasmHelper</name>
+    </assembly>
+    <members>
+        <member name="T:SqliteWasmHelper.BrowserCache">
+            <summary>
+            Wrapper for JavaScript code to sychronize the database.
+            </summary>
+        </member>
+        <member name="M:SqliteWasmHelper.BrowserCache.#ctor(Microsoft.JSInterop.IJSRuntime)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SqliteWasmHelper.BrowserCache"/> class.
+            </summary>
+            <param name="jsRuntime">The <see cref="T:Microsoft.JSInterop.IJSRuntime"/> instance.</param>
+        </member>
+        <member name="T:SqliteWasmHelper.Extensions">
+            <summary>
+            Extensions for ease of use.
+            </summary>
+        </member>
+        <member name="M:SqliteWasmHelper.Extensions.AddSqliteWasmDbContextFactory``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Microsoft.EntityFrameworkCore.DbContextOptionsBuilder},Microsoft.Extensions.DependencyInjection.ServiceLifetime)">
+            <summary>
+            Add helper factory.
+            </summary>
+            <typeparam name="TContext">The <see cref="T:Microsoft.EntityFrameworkCore.DbContext"/> being wrapped.</typeparam>
+            <param name="serviceCollection">The <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/>.</param>
+            <param name="optionsAction">An action used to configure <see cref="T:Microsoft.EntityFrameworkCore.DbContextOptions`1"/>.
+            </param>
+            <param name="lifetime">Lifetime of the service.</param>
+            <returns>The service implementation.</returns>
+        </member>
+        <member name="M:SqliteWasmHelper.Extensions.AddSqliteWasmDbContextFactory``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{System.IServiceProvider,Microsoft.EntityFrameworkCore.DbContextOptionsBuilder},Microsoft.Extensions.DependencyInjection.ServiceLifetime)">
+            <summary>
+            Add helper factory.
+            </summary>
+            <typeparam name="TContext">The <see cref="T:Microsoft.EntityFrameworkCore.DbContext"/> being wrapped.</typeparam>
+            <param name="serviceCollection">The <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/>.</param>
+            <param name="optionsAction">An action used to configure <see cref="T:Microsoft.EntityFrameworkCore.DbContextOptions`1"/>.
+            </param>
+            <param name="lifetime">Lifetime of the service.</param>
+            <returns>The service implementation.</returns>
+        </member>
+    </members>
+</doc>

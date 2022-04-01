@@ -1,0 +1,66 @@
+﻿@page "/"
+@using SqliteWasmHelper
+@using BlazorWasmExample.Data
+@using Microsoft.EntityFrameworkCore
+@inject SqliteWasmDbContextFactory<ThingContext> Factory
+
+<PageTitle>Index</PageTitle>
+
+<p>Type some thing:</p>
+<input @bind="newThing" disabled="@busy" />&nbsp;
+<button @onclick="@(async () => await AddThingAsync())" disabled="@busy">Add</button>
+
+@if (@busy)
+{
+    <div class="alert alert-info">💾 Scanning a floppy disk...</div>
+}
+else
+{
+    if (things.Length < 1)
+    {
+        <p>I see no-thing.</p>
+    }
+    else
+    {
+        <ul>
+            @foreach (var thing in things)
+            {
+                <li>@thing.Name</li>
+            }
+        </ul>
+    }
+}
+
+Download backup:
+<BackupLink @ref="bl" DbContextType="typeof(ThingContext)" />
+
+@code {
+    private bool busy;
+    private BackupLink bl = null!;
+    private string newThing = string.Empty;
+    private Thing[] things = Array.Empty<Thing>();
+
+    private async Task RefreshUiAsync()
+    {
+        using var ctx = await Factory.CreateDbContextAsync();
+        busy = true;
+        things = await ctx.Things.ToArrayAsync();
+        await bl.RefreshAsync();
+        busy = false;
+        StateHasChanged();
+    }
+
+    private async Task AddThingAsync()
+    {
+        if (!string.IsNullOrWhiteSpace(newThing))
+        {
+            using var ctx = await Factory.CreateDbContextAsync();
+            ctx.Things.Add(new Thing { Name = newThing });
+            busy = true;
+            await ctx.SaveChangesAsync();
+            newThing = string.Empty;
+            busy = false;
+            await RefreshUiAsync();
+        }
+    }
+}
