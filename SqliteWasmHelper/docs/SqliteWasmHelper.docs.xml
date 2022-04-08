@@ -63,6 +63,38 @@
             <param name="lifetime">Lifetime of the service.</param>
             <returns>The service implementation.</returns>
         </member>
+        <member name="T:SqliteWasmHelper.IBrowserCache">
+            <summary>
+            Wrapper for JavaScript module functions that interact with the cache.
+            </summary>
+        </member>
+        <member name="M:SqliteWasmHelper.IBrowserCache.SyncDbWithCacheAsync(System.String)">
+            <summary>
+            Calls the code to check save to/restore from cache.
+            </summary>
+            <param name="filename">The name of the file to process.</param>
+            <returns>Either -1 (no cache), 0 (restored), or 1 (cached).</returns>
+        </member>
+        <member name="M:SqliteWasmHelper.IBrowserCache.GenerateDownloadLinkAsync(Microsoft.AspNetCore.Components.ElementReference,System.String)">
+            <summary>
+            Creates an anchor tag to download the database and injects it into the parent.
+            </summary>
+            <param name="parent">The host for the tag.</param>
+            <param name="filename">The database filename.</param>
+            <returns>A value indicating whether the operation was successful.</returns>
+        </member>
+        <member name="T:SqliteWasmHelper.ISqliteSwap">
+            <summary>
+            Encapsulates backup functionality for SQLite.
+            </summary>
+        </member>
+        <member name="M:SqliteWasmHelper.ISqliteSwap.DoSwap(System.String,System.String)">
+            <summary>
+            Perform a backup operation (or restore) between two databases.
+            </summary>
+            <param name="srcFilename">Name of the source filename of the db.</param>
+            <param name="destFilename">Name of the destination filename of the db.</param>
+        </member>
         <member name="T:SqliteWasmHelper.ISqliteWasmDbContextFactory`1">
             <summary>
             Interface for custom factory.
@@ -75,6 +107,19 @@
             </summary>
             <returns>The new context.</returns>
         </member>
+        <member name="T:SqliteWasmHelper.SqliteSwap">
+            <summary>
+            Performs the backup or restore. Override to inject your own
+            functionality, such as sending the file to the server.
+            </summary>
+        </member>
+        <member name="M:SqliteWasmHelper.SqliteSwap.DoSwap(System.String,System.String)">
+            <summary>
+            Performs the swap between live database and backup.
+            </summary>
+            <param name="srcFilename">Name of the source db file.</param>
+            <param name="destFilename">Name of the target db file.</param>
+        </member>
         <member name="T:SqliteWasmHelper.SqliteWasmDbContextFactory`1">
             <summary>
             Defers sending back the context until the database is restored, and backs up on
@@ -82,12 +127,13 @@
             </summary>
             <typeparam name="TContext">The <see cref="T:Microsoft.EntityFrameworkCore.DbContext"/>.</typeparam>
         </member>
-        <member name="M:SqliteWasmHelper.SqliteWasmDbContextFactory`1.#ctor(Microsoft.EntityFrameworkCore.IDbContextFactory{`0},SqliteWasmHelper.BrowserCache)">
+        <member name="M:SqliteWasmHelper.SqliteWasmDbContextFactory`1.#ctor(Microsoft.EntityFrameworkCore.IDbContextFactory{`0},SqliteWasmHelper.IBrowserCache,SqliteWasmHelper.ISqliteSwap)">
             <summary>
             Initializes a new instance of the <see cref="T:SqliteWasmHelper.SqliteWasmDbContextFactory`1"/> class.
             </summary>
             <param name="dbContextFactory">The EF Core-provided factory.</param>
             <param name="cache">The <see cref="T:SqliteWasmHelper.BrowserCache"/> helper.</param>
+            <param name="swap">Service to perform the backup.</param>
         </member>
         <member name="P:SqliteWasmHelper.SqliteWasmDbContextFactory`1.Filename">
             <summary>
@@ -97,6 +143,11 @@
         <member name="P:SqliteWasmHelper.SqliteWasmDbContextFactory`1.BackupFile">
             <summary>
             Gets an easy reference to the backup file.
+            </summary>
+        </member>
+        <member name="M:SqliteWasmHelper.SqliteWasmDbContextFactory`1.Reset">
+            <summary>
+            Mainly for testing purposes.
             </summary>
         </member>
         <member name="M:SqliteWasmHelper.SqliteWasmDbContextFactory`1.GetFilenameForType">

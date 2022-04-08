@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32317.152
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqliteWasmHelper", "SqliteWasmHelper\SqliteWasmHelper.csproj", "{2AD9DB64-1036-4DA2-9950-F3E40D37C528}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SqliteWasmHelper", "SqliteWasmHelper\SqliteWasmHelper.csproj", "{2AD9DB64-1036-4DA2-9950-F3E40D37C528}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorWasmExample", "BlazorWasmExample\BlazorWasmExample.csproj", "{C060277C-8347-47EB-A94F-F7A97BCDB261}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorWasmExample", "BlazorWasmExample\BlazorWasmExample.csproj", "{C060277C-8347-47EB-A94F-F7A97BCDB261}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SqliteWasmTests", "SqliteWasmTests\SqliteWasmTests.csproj", "{BD0029D0-215E-4838-84A9-18AC3F0887A2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{C060277C-8347-47EB-A94F-F7A97BCDB261}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C060277C-8347-47EB-A94F-F7A97BCDB261}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C060277C-8347-47EB-A94F-F7A97BCDB261}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD0029D0-215E-4838-84A9-18AC3F0887A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD0029D0-215E-4838-84A9-18AC3F0887A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD0029D0-215E-4838-84A9-18AC3F0887A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD0029D0-215E-4838-84A9-18AC3F0887A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

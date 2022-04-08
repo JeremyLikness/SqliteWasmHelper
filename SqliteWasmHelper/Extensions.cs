@@ -49,9 +49,15 @@ namespace SqliteWasmHelper
         {
             serviceCollection.TryAdd(
                 new ServiceDescriptor(
+                    typeof(IBrowserCache),
                     typeof(BrowserCache),
-                    typeof(BrowserCache),
-                    lifetime));
+                    ServiceLifetime.Singleton));
+
+            serviceCollection.TryAdd(
+                new ServiceDescriptor(
+                    typeof(ISqliteSwap),
+                    typeof(SqliteSwap),
+                    ServiceLifetime.Singleton));
 
             serviceCollection.TryAdd(
                 new ServiceDescriptor(

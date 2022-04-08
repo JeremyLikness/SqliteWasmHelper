@@ -1,3 +1,7 @@
+// <copyright file="BrowserCache.cs" company="Jeremy Likness">
+// Copyright (c) Jeremy Likness. All rights reserved.
+// </copyright>
+
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
@@ -6,7 +10,7 @@ namespace SqliteWasmHelper
     /// <summary>
     /// Wrapper for JavaScript code to sychronize the database.
     /// </summary>
-    public sealed class BrowserCache : IAsyncDisposable
+    public sealed class BrowserCache : IAsyncDisposable, IBrowserCache
     {
         private readonly Lazy<Task<IJSObjectReference>> moduleTask;
 
@@ -38,7 +42,7 @@ namespace SqliteWasmHelper
         /// </summary>
         /// <param name="filename">The name of the file to process.</param>
         /// <returns>Either -1 (no cache), 0 (restored), or 1 (cached).</returns>
-        internal async Task<int> SyncDbWithCacheAsync(string filename)
+        public async Task<int> SyncDbWithCacheAsync(string filename)
         {
             var module = await moduleTask.Value;
             return await module.InvokeAsync<int>("synchronizeDbWithCache", filename);
@@ -50,7 +54,7 @@ namespace SqliteWasmHelper
         /// <param name="parent">The host for the tag.</param>
         /// <param name="filename">The database filename.</param>
         /// <returns>A value indicating whether the operation was successful.</returns>
-        internal async Task<bool> GenerateDownloadLinkAsync(ElementReference parent, string filename)
+        public async Task<bool> GenerateDownloadLinkAsync(ElementReference parent, string filename)
         {
             var module = await moduleTask.Value;
             return await module.InvokeAsync<bool>("generateDownloadLink", parent, filename);

@@ -2,7 +2,6 @@
 // Copyright (c) Jeremy Likness. All rights reserved.
 // </copyright>
 
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
 namespace SqliteWasmHelper
@@ -18,7 +17,8 @@ namespace SqliteWasmHelper
         private static readonly IDictionary<Type, string> FileNames = new Dictionary<Type, string>();
 
         private readonly IDbContextFactory<TContext> dbContextFactory;
-        private readonly BrowserCache cache;
+        private readonly IBrowserCache cache;
+        private readonly ISqliteSwap swap;
         private Task<int>? startupTask = null;
         private int lastStatus = -2;
         private bool init = false;
@@ -28,12 +28,15 @@ namespace SqliteWasmHelper
         /// </summary>
         /// <param name="dbContextFactory">The EF Core-provided factory.</param>
         /// <param name="cache">The <see cref="BrowserCache"/> helper.</param>
+        /// <param name="swap">Service to perform the backup.</param>
         public SqliteWasmDbContextFactory(
             IDbContextFactory<TContext> dbContextFactory,
-            BrowserCache cache)
+            IBrowserCache cache,
+            ISqliteSwap swap)
         {
             this.cache = cache;
             this.dbContextFactory = dbContextFactory;
+            this.swap = swap;
             startupTask = RestoreAsync();
         }
 
@@ -46,6 +49,11 @@ namespace SqliteWasmHelper
         /// Gets an easy reference to the backup file.
         /// </summary>
         private static string BackupFile => $"{SqliteWasmDbContextFactory<TContext>.Filename}_bak";
+
+        /// <summary>
+        /// Mainly for testing purposes.
+        /// </summary>
+        public static void Reset() => FileNames.Clear();
 
         /// <summary>
         /// Gets the cached filenames for each <see cref="DbContext"/> type.
@@ -79,19 +87,8 @@ namespace SqliteWasmHelper
             return ctx;
         }
 
-        private static void DoSwap(string source, string target)
-        {
-            using var src = new SqliteConnection($"Data Source={source}");
-            using var tgt = new SqliteConnection($"Data Source={target}");
-
-            src.Open();
-            tgt.Open();
-
-            src.BackupDatabase(tgt);
-
-            tgt.Close();
-            src.Close();
-        }
+        private void DoSwap(string source, string target) =>
+            swap.DoSwap(source, target);
 
         /// <summary>
         /// Method called once to reverse engineer filename from connection string.
