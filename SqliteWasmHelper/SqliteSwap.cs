@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// <copyright file="SqliteSwap.cs" company="Jeremy Likness">
+// Copyright (c) Jeremy Likness. All rights reserved.
+// </copyright>
+
 using Microsoft.Data.Sqlite;
 
 namespace SqliteWasmHelper

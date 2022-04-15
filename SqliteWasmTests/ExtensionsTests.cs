@@ -54,12 +54,30 @@ namespace SqliteWasmTests
                             string.Empty,
                             lifetimeOption,
                         };
+
+                        yield return new object[]
+                        {
+                            (IServiceCollection coll) => coll.AddSqliteWasmDbContextFactory<TestContext>(
+                                (_, opts) => opts.UseSqlite(),
+                                lifetime: lifetimeOption),
+                            string.Empty,
+                            lifetimeOption,
+                        };
                     }
                     else
                     {
                         yield return new object[]
                         {
                             (IServiceCollection coll) => coll.AddSqliteWasmDbContextFactory<TestContext>(opts =>
+                            opts.UseSqlite(dataSourceOption), lifetimeOption),
+                            dataSourceOption,
+                            lifetimeOption,
+                        };
+
+                        yield return new object[]
+                        {
+                            (IServiceCollection coll) => coll.AddSqliteWasmDbContextFactory<TestContext>(
+                                (_, opts) =>
                             opts.UseSqlite(dataSourceOption), lifetimeOption),
                             dataSourceOption,
                             lifetimeOption,
