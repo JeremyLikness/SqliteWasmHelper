@@ -24,7 +24,7 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release --no-restore
     - name: Delete previous documentation
-      run: rm -r ../SqliteWasmHelper/docs
+      run: rm -r ./SqliteWasmHelper/docs
     - name: Generate Documentation
       run: dotnet run --no-build --source https://github.com/JeremyLikness/SqliteWasmHelper/blob/main/SqliteWasmHelper/ --clean SqliteWasmHelper ../SqliteWasmHelper/docs
       working-directory: ./XmlDocGen
