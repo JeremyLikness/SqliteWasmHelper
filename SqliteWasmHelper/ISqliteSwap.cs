@@ -1,4 +1,8 @@
-﻿namespace SqliteWasmHelper
+﻿// <copyright file="ISqliteSwap.cs" company="Jeremy Likness">
+// Copyright (c) Jeremy Likness. All rights reserved.
+// </copyright>
+
+namespace SqliteWasmHelper
 {
     /// <summary>
     /// Encapsulates backup functionality for SQLite.
