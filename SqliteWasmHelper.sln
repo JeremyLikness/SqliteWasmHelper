@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{B4640B
 		version.json = version.json
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlDocGen", "XmlDocGen\XmlDocGen.csproj", "{BFAA5397-8E56-407B-9826-4A1111F172B9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{BD0029D0-215E-4838-84A9-18AC3F0887A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD0029D0-215E-4838-84A9-18AC3F0887A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD0029D0-215E-4838-84A9-18AC3F0887A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFAA5397-8E56-407B-9826-4A1111F172B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFAA5397-8E56-407B-9826-4A1111F172B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFAA5397-8E56-407B-9826-4A1111F172B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFAA5397-8E56-407B-9826-4A1111F172B9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
