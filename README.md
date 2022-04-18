@@ -2,7 +2,8 @@
 
 [![.NET Builds](https://github.com/JeremyLikness/SqliteWasmHelper/actions/workflows/build.yml/badge.svg)](https://github.com/JeremyLikness/SqliteWasmHelper/actions/workflows/build.yml)
 [![.NET Tests](https://github.com/JeremyLikness/SqliteWasmHelper/actions/workflows/tests.yml/badge.svg)](https://github.com/JeremyLikness/SqliteWasmHelper/actions/workflows/tests.yml)
-[![CodeQL](https://github.com/JeremyLikness/SqliteWasmHelper/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/JeremyLikness/SqliteWasmHelper/actions/workflows/codeql-analysis.yml)
+
+Download this package from [Nuget](https://www.nuget.org/packages/SqliteWasmHelper/).
 
 `SqliteWasmHelper` is a package designed to make it easy to work with SQLite databases
 in Blazor Wasm apps. Although you *could* install [Eric Sink](https://github.com/ericsink)'s 
