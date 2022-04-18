@@ -12,7 +12,7 @@ package directly, that will only provide an in-memory implementation. This packa
 automatically injects the code needed to persist your database in cache with the
 help of [EF Core](https://docs.microsoft.com/ef). 
 
-^ **WARNING** The browser cache is both easily accessible by the end user and can be flushed
+> **WARNING** The browser cache is both easily accessible by the end user and can be flushed
 any time. Do not use SQLite in the browser to store sensitive data. Do not use it to store
 user-entered data unless the data is temporary in nature or you have a process to synchronize
 data to the back end. 
