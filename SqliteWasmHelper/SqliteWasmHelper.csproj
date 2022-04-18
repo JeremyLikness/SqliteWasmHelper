@@ -2,12 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
+    <Title>SQLite WASM Helper for EF Core</Title>
 	  <Description>Helper library for using SQLite with EF Core in the browser on Blazor WebAssembly. Provides
-	  the hooks to store the database in the browser application cache.</Description>
+	  the hooks to store the database in the browser application cache.</Description>   
 	  <GenerateDocumentationFile>true</GenerateDocumentationFile>	  
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<PackageLicenseExpression>MIT</PackageLicenseExpression>    
 	  <Authors>Jeremy Likness</Authors>
   </PropertyGroup>
 
