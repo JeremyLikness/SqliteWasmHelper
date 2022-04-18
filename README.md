@@ -76,17 +76,21 @@ D --> G[Call JavaScript]
 E --> F[Backup database]
 F --> G
 G --> H{First time?}
-H -->|Yes| I{Filename in cache?}
-H -->|No| K[Store file to cache]
+H -->|Yes| I{Backup in cache?}
+H -->|No| K[Store backup to cache]
 I -->|Yes| J[Restore to Wasm filesystem]
 I --> |No| L
 J --> L[Return to DotNet]
 K --> L
-L --> M{Database loaded from cache?}
+L --> M{Backup loaded from cache?}
 M --> |Yes| N[Restore database]
 M --> |No| O(End)
 N --> O
 ```
+
+The first time you context is generated, the database will be restored if a backup exists in cache. Any call to `SaveChangesAsync` will result in the database being saved to cache.
+
+To see the cache, open developer tools in your browser and navigate to Application -> Cache -> Cache Storage -> SqliteWasmHelper. The key for your database is `/data/cache/filename`.
 
 ## API documentation
 
