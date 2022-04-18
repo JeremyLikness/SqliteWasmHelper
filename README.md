@@ -13,6 +13,24 @@ help of [EF Core](https://docs.microsoft.com/ef).
 
 ## Quick start
 
+Let's get right to the point!
+
+### Prerequisites
+
+For the Wasm client to get properly linked, you must have the [WebAssembly Tools workload](https://docs.microsoft.com/en-us/core/blazor/webassembly-native-dependencies)
+installed.
+
+Add the following to the `.csproj` file for your Blazor WebAssembly project (it can be added to an
+existing `PropertyGroup`):
+
+```xml
+<PropertyGroup>
+   <WasmBuildNative>true</WasmBuildNative>
+</PropertyGroup>
+```
+
+### Instlallation and use
+
 1. Install the NuGet package (will update this once NuGet is published, for now you can generate
 it and reference locally) or reference the `SqliteWasmHelper` project. This automatically
 installs all necessary dependencies:
