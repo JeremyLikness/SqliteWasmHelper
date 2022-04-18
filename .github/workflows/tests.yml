@@ -1,0 +1,24 @@
+name: .NET Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '#skip_ci')"
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Fetch
+      run: git fetch --unshallow
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v2.0.0
+      with:
+        dotnet-version: 6.0.x
+    - name: Run all tests
+      run: dotnet test SqliteWasmHelper.sln
