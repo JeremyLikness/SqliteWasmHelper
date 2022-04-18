@@ -36,8 +36,7 @@
 		<Product>SQLite Wasm Helper</Product>
 		<UseFullSemVerForNuGet>true</UseFullSemVerForNuGet>
 		<IsPackable>true</IsPackable>
-		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-		<PackageOutputPath>./packages</PackageOutputPath>
+		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>		
 	</PropertyGroup>
 	
   <ItemGroup>
