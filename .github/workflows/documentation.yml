@@ -26,8 +26,8 @@ jobs:
     - name: Delete previous documentation
       run: rm -r ./SqliteWasmHelper/docs
     - name: Generate Documentation
-      run: ./xmldocgen.exe --no-build --source https://github.com/JeremyLikness/SqliteWasmHelper/blob/main/SqliteWasmHelper/ --clean SqliteWasmHelper ../SqliteWasmHelper/docs
-      working-directory: ./SqliteWasmHelper/XmlDocGen/bin/Debug/net6.0/XmlDocGen
+      run: dotnet run --no-build --source https://github.com/JeremyLikness/SqliteWasmHelper/blob/main/SqliteWasmHelper/ --clean SqliteWasmHelper ../SqliteWasmHelper/docs
+      working-directory: ~/SqliteWasmHelper/SqliteWasmHelper/XmlDocGen/
     - name: Commit files
       run: |
         git config --local user.email "jeremy@jeremylikness.com"
