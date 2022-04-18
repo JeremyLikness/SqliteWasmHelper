@@ -29,9 +29,9 @@ installed.
 ### Instlallation and use
 
 1. Install the lastest [SQlite in WebAssembly helper NuGet package](https://www.nuget.org/packages/SqliteWasmHelper/) or reference the `SqliteWasmHelper` project. This automatically installs all necessary dependencies:
-  a. `SqliteWasmHelper`
-  a. [Entity Framework Core and the SQLite provider](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.Sqlite.Core/)
-  a. The [SQLitePCLRaw.bundle](https://www.nuget.org/packages/SQLitePCLRaw.bundle_e_sqlite3/) for running SQLite in WebAssembly
+    1. `SqliteWasmHelper`
+    1. [Entity Framework Core and the SQLite provider](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.Sqlite.Core/)
+    1. The [SQLitePCLRaw.bundle](https://www.nuget.org/packages/SQLitePCLRaw.bundle_e_sqlite3/) for running SQLite in WebAssembly
 1. Add the following to the `.csproj` file for your Blazor WebAssembly project (it can be added to an
 existing `PropertyGroup`):
     ```xml
