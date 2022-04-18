@@ -13,7 +13,9 @@ jobs:
   build-and-package:
 
     runs-on: ubuntu-latest
-
+    env:
+      NUGET_AUTH_TOKEN: ${{secrets.NUGET}}        
+    
     steps:
     - uses: actions/checkout@v2
     - name: Fetch
@@ -27,14 +29,9 @@ jobs:
     - name: Build
       run: dotnet build SqliteWasmHelper.sln --configuration Release --no-restore
     - name: Test
-      run: dotnet test SqliteWasmHelper.sln --no-restore --verbosity normal
-    - name: Core Package
-      uses: rohith/publish-nuget@v2
-      with:
-        # Filepath of the project to be packaged, relative to root of repository
-        PROJECT_FILE_PATH: SqliteWasmHelper/SqliteWasmHelper.csproj
-        TAG_COMMIT: true
-        VERSION_STATIC: true
-        NUGET_KEY: ${{ secrets.NUGET }}
-        # Flag to toggle pushing symbols along with nuget package to the server, disabled by default
-        INCLUDE_SYMBOLS: false    
+      run: dotnet test SqliteWasmHelper.sln --no-restore --verbosity normal          
+    - name: Generate NuGet package
+      run: dotnet pack --no-build -c Release -o out  
+      working-directory: ./SqliteWasmHelper
+    - name: Push generated package to GitHub registry
+      run: dotnet nuget push ./SqliteWasmHelper/out/*.nupkg --skip-duplicate --no-symbols true
