@@ -7,7 +7,7 @@ on:
 jobs:
   documentation:
 
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '#skip_ci')"
 
     steps:
@@ -24,11 +24,9 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release --no-restore
     - name: Delete previous documentation
-      run: rm -r -fo SqliteWasmHelper\docs
-    - name: Reality check
-      run: Get-ChildItem -Recurse
+      run: rm -r ./SqliteWasmHelper/docs
     - name: Generate Documentation
-      run: ./XmlDocGen/bin/Debug/net6.0/XmlDocGen.exe --source https://github.com/JeremyLikness/SqliteWasmHelper/blob/main/SqliteWasmHelper/ --clean XmlDocGen/bin/Debug/net6.0/SqliteWasmHelper.dll SqliteWasmHelper/docs --project XmlDocGen/XmlDocGen.csproj 
+      run: ./XmlDocGen/bin/Release/net6.0/XmlDocGen --source https://github.com/JeremyLikness/SqliteWasmHelper/blob/main/SqliteWasmHelper/ --clean ./XmlDocGen/bin/Debug/net6.0/SqliteWasmHelper.dll ./SqliteWasmHelper/docs 
     - name: Commit files
       run: |
         git config --local user.email "jeremy@jeremylikness.com"
