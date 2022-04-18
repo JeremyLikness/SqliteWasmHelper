@@ -1,5 +1,6 @@
 # SqliteWasmHelper
 
+[![.NET Builds](https://github.com/JeremyLikness/SqliteWasmHelper/actions/workflows/build.yml/badge.svg)](https://github.com/JeremyLikness/SqliteWasmHelper/actions/workflows/build.yml)
 [![.NET Tests](https://github.com/JeremyLikness/SqliteWasmHelper/actions/workflows/tests.yml/badge.svg)](https://github.com/JeremyLikness/SqliteWasmHelper/actions/workflows/tests.yml)
 [![CodeQL](https://github.com/JeremyLikness/SqliteWasmHelper/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/JeremyLikness/SqliteWasmHelper/actions/workflows/codeql-analysis.yml)
 
