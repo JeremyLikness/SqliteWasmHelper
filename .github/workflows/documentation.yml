@@ -35,7 +35,7 @@ jobs:
         git config --local user.name "Documentation Generator"
         git commit -m "Documentation only #skip_ci" -a
     - name: Push changes
-      if: succeeded()
+      if: success()
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.DOCUMENTATION_PUSH }}
