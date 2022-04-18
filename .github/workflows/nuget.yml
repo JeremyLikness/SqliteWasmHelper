@@ -29,7 +29,7 @@ jobs:
     - name: Test
       run: dotnet test SqliteWasmHelper.sln --no-restore --verbosity normal
     - name: Core Package
-      uses: brohith/publish-nuget@v2
+      uses: rohith/publish-nuget@v2
       with:
         # Filepath of the project to be packaged, relative to root of repository
         PROJECT_FILE_PATH: SqliteWasmHelper/SqliteWasmHelper.csproj
