@@ -28,8 +28,7 @@ jobs:
     - name: dir dump
       run:  "ls -a"
     - name: Generate Documentation
-      run: dotnet run --no-build --source https://github.com/JeremyLikness/SqliteWasmHelper/blob/main/SqliteWasmHelper/ --clean SqliteWasmHelper ../SqliteWasmHelper/docs
-      working-directory: ../XmlDocGen
+      run: dotnet run --no-build --source https://github.com/JeremyLikness/SqliteWasmHelper/blob/main/SqliteWasmHelper/ --clean SqliteWasmHelper SqliteWasmHelper/docs --project XmlDocGen/XmlDocGen.csproj 
     - name: Commit files
       run: |
         git config --local user.email "jeremy@jeremylikness.com"
