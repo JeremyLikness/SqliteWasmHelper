@@ -32,5 +32,4 @@ jobs:
       run: dotnet pack --no-build -c Release -o out  
       working-directory: ./SqliteWasmHelper
     - name: Push generated package to GitHub registry
-      run: dotnet nuget push ./SqliteWasmHelper/out/*.nupkg --api-key ${{secrets.NUGET}} -s https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols true
-      continue-on-error: true
+      run: dotnet nuget push ./SqliteWasmHelper/out/*.nupkg --api-key ${{secrets.NUGET}} -s https://api.nuget.org/v3/index.json --skip-duplicate -n
