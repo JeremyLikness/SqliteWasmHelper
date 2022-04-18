@@ -1,5 +1,6 @@
 # SqliteWasmHelper
 
+[![.NET Tests](https://github.com/JeremyLikness/SqliteWasmHelper/actions/workflows/tests.yml/badge.svg)](https://github.com/JeremyLikness/SqliteWasmHelper/actions/workflows/tests.yml)
 [![CodeQL](https://github.com/JeremyLikness/SqliteWasmHelper/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/JeremyLikness/SqliteWasmHelper/actions/workflows/codeql-analysis.yml)
 
 `SqliteWasmHelper` is a package designed to make it easy to work with SQLite databases
