@@ -25,6 +25,8 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     - name: Delete previous documentation
       run: rm -r -fo SqliteWasmHelper\docs
+    - name: Reality check
+      run: Get-ChildItem -Recurse
     - name: Generate Documentation
       run: ./XmlDocGen/bin/Debug/net6.0/XmlDocGen.exe --source https://github.com/JeremyLikness/SqliteWasmHelper/blob/main/SqliteWasmHelper/ --clean XmlDocGen/bin/Debug/net6.0/SqliteWasmHelper.dll SqliteWasmHelper/docs --project XmlDocGen/XmlDocGen.csproj 
     - name: Commit files
