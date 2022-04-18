@@ -1,0 +1,40 @@
+# This is a basic workflow that is manually triggered
+
+name: Pack and Publish NuGet
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on:
+  workflow_dispatch:
+    
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+   
+  build-and-package:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Fetch
+      run: git fetch --unshallow
+    - name: Setup .NET 
+      uses: actions/setup-dotnet@v2.0.0
+      with:
+        dotnet-version: 6.0.x
+    - name: Install dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build SqliteWasmHelper.sln --configuration Release --no-restore
+    - name: Test
+      run: dotnet test SqliteWasmHelper.sln --no-restore --verbosity normal
+    - name: Core Package
+      uses: rohith/publish-nuget@v2
+      with:
+        # Filepath of the project to be packaged, relative to root of repository
+        PROJECT_FILE_PATH: SqliteWasmHelper/SqliteWasmHelper.csproj
+        TAG_COMMIT: true
+        VERSION_STATIC: true
+        NUGET_KEY: ${{ secrets.NUGET }}
+        # Flag to toggle pushing symbols along with nuget package to the server, disabled by default
+        INCLUDE_SYMBOLS: false    
