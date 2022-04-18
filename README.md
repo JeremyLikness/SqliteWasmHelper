@@ -60,6 +60,8 @@ or use/customize the [BackupLink](https://github.com/JeremyLikness/SqliteWasmHel
 
 The `BlazorWasmExample` is a working example to show it in use.
 
+> **⚠️ IMPORTANT** The helper requires JavaScript interop to store the database in cache. For this reason, it is important you **always call `SaveChangesAsync` not `SaveChanges` when saving updates**. Any other operations such as calling `EnsureCreated` or executing queries can be done either synchronously or asynchronously.
+
 ## How it works
 
 When your app requests a `DbContext`, the special factory uses JavaScript interop to 
