@@ -55,7 +55,7 @@ existing `PropertyGroup`):
     ctx.Things.Add(new Thing { Name = newThing });
     await ctx.SaveChangesAsync();
     ```
-1. If you want access to the file, look at the [GenerateDownloadLinkAsync](docs/IBrowserCache/GenerateDownloadLinkAsync.md) documentation
+1. If you want access to the file, look at the [GenerateDownloadLinkAsync](SqliteWasmHelper/docs/SqliteWasmHelper/IBrowserCache/GenerateDownloadLinkAsync.md) documentation
 or use/customize the [BackupLink](https://github.com/JeremyLikness/SqliteWasmHelper/blob/main/SqliteWasmHelper/BackupLink.razor) component.
 
 The `BlazorWasmExample` is a working example to show it in use.
@@ -64,7 +64,29 @@ The `BlazorWasmExample` is a working example to show it in use.
 
 When your app requests a `DbContext`, the special factory uses JavaScript interop to 
 check for the existence of a cache. If the cache exists, it is restored and returned,
-otherwise a new database is created. [to be continued...]
+otherwise a new database is created.
+
+```mermaid
+graph TD
+A(Start) --> B[Get filename from data source]
+B --> C{First time?}
+C -->|Yes| D[Generate restore filename]
+C -->|No| E[Generate backup filename]
+D --> G[Call JavaScript]
+E --> F[Backup database]
+F --> G
+G --> H{First time?}
+H -->|Yes| I{Filename in cache?}
+H -->|No| K[Store file to cache]
+I -->|Yes| J[Restore to Wasm filesystem]
+I --> |No| L
+J --> L[Return to DotNet]
+K --> L
+L --> M{Database loaded from cache?}
+M --> |Yes| N[Restore database]
+M --> |No| O(End)
+N --> O
+```
 
 ## API documentation
 
