@@ -27,9 +27,8 @@ jobs:
       run: rm -r ./SqliteWasmHelper/docs
     - name: Generate Documentation
       run: ./XmlDocGen/bin/Release/net6.0/XmlDocGen --source https://github.com/JeremyLikness/SqliteWasmHelper/blob/main/SqliteWasmHelper/ --clean ./XmlDocGen/bin/Release/net6.0/SqliteWasmHelper.dll ./SqliteWasmHelper/docs 
-    - name: Timestamp
-      run: echo $(date) > ./SqliteWasmHelper/docs/timestamp.txt
     - name: Commit files
+      continue-on-error: true
       run: |
         git config --local user.email "jeremy@jeremylikness.com"
         git config --local user.name "Documentation Generator"
