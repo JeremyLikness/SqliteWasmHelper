@@ -17,6 +17,14 @@ any time. Do not use SQLite in the browser to store sensitive data. Do not use i
 user-entered data unless the data is temporary in nature or you have a process to synchronize
 data to the back end. 
 
+## Links
+
+- [MIT license](./LICENSE.txt)
+- [API documentation](./SqlWasmHelper/docs/SqliteWasmHelper.md)
+- [Release notes](./ReleaseNotes.md)
+- [Contributing](./CONTRIBUTING.md)
+- [Code of conduct](./CODE_OF_CONDUCT.md)
+
 ## Quick start
 
 Let's get right to the point!
@@ -61,6 +69,12 @@ or use/customize the [BackupLink](https://github.com/JeremyLikness/SqliteWasmHel
 The `BlazorWasmExample` is a working example to show it in use.
 
 > **⚠️ IMPORTANT** The helper requires JavaScript interop to store the database in cache. For this reason, it is important you **always call `SaveChangesAsync` not `SaveChanges` when saving updates**. Any other operations such as calling `EnsureCreated` or executing queries can be done either synchronously or asynchronously.
+
+> **⚠️ ALSO IMPORTANT** The helper calls `EnsureCreated` on the database before 
+passing control to JavaScript. This won't  conflict with other calls but may lead to 
+unexpected behavior. For example, if you seed your database based on a successful call, 
+you will need to change your logic to check for data in tables instead of using the `EnsureCreated`
+result.
 
 ## How it works
 

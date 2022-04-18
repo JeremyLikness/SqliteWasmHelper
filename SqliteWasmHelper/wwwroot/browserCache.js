@@ -8,7 +8,7 @@ export async function synchronizeDbWithCache(file) {
     const db = window.sqlitedb;
     
     const backupPath = `/${file}`;
-    const cachePath = `/data/cache${backupPath.split('.')[0]}.db`;
+    const cachePath = `/data/cache/${file.substring(0, file.indexOf('_bak'))}`;
 
     if (!db.init) {
 
@@ -65,7 +65,7 @@ export async function synchronizeDbWithCache(file) {
 export async function generateDownloadLink(parent, file) {
 
     const backupPath = `${file}`;
-    const cachePath = `/data/cache/${backupPath.split('.')[0]}.db`;
+    const cachePath = `/data/cache/${file.substring(0, file.indexOf('_bak'))}`;
     const db = window.sqlitedb;
     const resp = await db.cache.match(cachePath);
 
