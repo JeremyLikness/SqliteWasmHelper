@@ -26,43 +26,39 @@ Let's get right to the point!
 For the Wasm client to get properly linked, you must have the [WebAssembly Tools workload](https://docs.microsoft.com/en-us/core/blazor/webassembly-native-dependencies)
 installed.
 
-Add the following to the `.csproj` file for your Blazor WebAssembly project (it can be added to an
-existing `PropertyGroup`):
-
-```xml
-<PropertyGroup>
-   <WasmBuildNative>true</WasmBuildNative>
-</PropertyGroup>
-```
-
 ### Instlallation and use
 
-1. Install the NuGet package (will update this once NuGet is published, for now you can generate
-it and reference locally) or reference the `SqliteWasmHelper` project. This automatically
-installs all necessary dependencies:
-  a. SqliteWasmHelper
-  b. Entity Framework Core and the SQLite provider
-  c. The SQLitePCLRaw.bundle for running SQLite in WebAssembly
-2. Add `using SqliteWasmHelper;` to the top of the `Program.cs` file in your Blazor WebAssembly project
-3. Use the extension method to add a special `DbContext` factory:
-  ```csharp
-  builder.Services.AddSqliteWasmDbContextFactory<ThingContext>(
-    opts => opts.UseSqlite("Data Source=things.sqlite3"));
-  ```
-4. Inject the factory into the components that need it
-  ```csharp
-  @inject ISqliteWasmDbContextFactory<ThingContext> Factory
-  ```
-5. Use the `DbContext` as you normally would
-   ```csharp
-   using var ctx = await Factory.CreateDbContextAsync();
-   ctx.Things.Add(new Thing { Name = newThing });
-   await ctx.SaveChangesAsync();
-   ```
-6. If you want access to the file, look at the [GenerateDownloadLinkAsync](docs/IBrowserCache/GenerateDownloadLinkAsync.md) documentation
+1. Install the lastest [SQlite in WebAssembly helper NuGet package](https://www.nuget.org/packages/SqliteWasmHelper/) or reference the `SqliteWasmHelper` project. This automatically installs all necessary dependencies:
+  a. `SqliteWasmHelper`
+  a. [Entity Framework Core and the SQLite provider](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.Sqlite.Core/)
+  a. The [SQLitePCLRaw.bundle](https://www.nuget.org/packages/SQLitePCLRaw.bundle_e_sqlite3/) for running SQLite in WebAssembly
+1. Add the following to the `.csproj` file for your Blazor WebAssembly project (it can be added to an
+existing `PropertyGroup`):
+    ```xml
+    <PropertyGroup>
+        <WasmBuildNative>true</WasmBuildNative>
+    </PropertyGroup>
+    ```
+1. Add `using SqliteWasmHelper;` to the top of the `Program.cs` file in your Blazor WebAssembly project
+1. Use the extension method to add a special `DbContext` factory:
+    ```csharp
+      builder.Services.AddSqliteWasmDbContextFactory<ThingContext>(
+        opts => opts.UseSqlite("Data Source=things.sqlite3"));
+    ```
+1. Inject the factory into the components that need it
+    ```csharp
+    @inject ISqliteWasmDbContextFactory<ThingContext> Factory
+    ```
+1. Use the `DbContext` as you normally would
+    ```csharp
+    using var ctx = await Factory.CreateDbContextAsync();
+    ctx.Things.Add(new Thing { Name = newThing });
+    await ctx.SaveChangesAsync();
+    ```
+1. If you want access to the file, look at the [GenerateDownloadLinkAsync](docs/IBrowserCache/GenerateDownloadLinkAsync.md) documentation
 or use/customize the [BackupLink](https://github.com/JeremyLikness/SqliteWasmHelper/blob/main/SqliteWasmHelper/BackupLink.razor) component.
 
-7. The `BlazorWasmExample` is a working example to show it in use.
+The `BlazorWasmExample` is a working example to show it in use.
 
 ## How it works
 
