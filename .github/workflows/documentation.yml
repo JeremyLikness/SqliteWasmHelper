@@ -27,7 +27,7 @@ jobs:
       run: rm -r ./SqliteWasmHelper/docs
     - name: Generate Documentation
       run: dotnet run --no-build --source https://github.com/JeremyLikness/SqliteWasmHelper/blob/main/SqliteWasmHelper/ --clean SqliteWasmHelper ../SqliteWasmHelper/docs
-      working-directory: ~/SqliteWasmHelper/SqliteWasmHelper/XmlDocGen/
+      working-directory: /home/runner/work/SqliteWasmHelper/XmlDocGen/
     - name: Commit files
       run: |
         git config --local user.email "jeremy@jeremylikness.com"
