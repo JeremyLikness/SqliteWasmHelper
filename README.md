@@ -2,6 +2,7 @@
 
 [![.NET Builds](https://github.com/JeremyLikness/SqliteWasmHelper/actions/workflows/build.yml/badge.svg)](https://github.com/JeremyLikness/SqliteWasmHelper/actions/workflows/build.yml)
 [![.NET Tests](https://github.com/JeremyLikness/SqliteWasmHelper/actions/workflows/tests.yml/badge.svg)](https://github.com/JeremyLikness/SqliteWasmHelper/actions/workflows/tests.yml)
+[![Generate and Publish Documentation](https://github.com/JeremyLikness/SqliteWasmHelper/actions/workflows/documentation.yml/badge.svg)](https://github.com/JeremyLikness/SqliteWasmHelper/actions/workflows/documentation.yml)
 
 Download this package from [Nuget](https://www.nuget.org/packages/SqliteWasmHelper/).
 
