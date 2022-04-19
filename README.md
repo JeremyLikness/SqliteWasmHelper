@@ -28,7 +28,9 @@ data to the back end.
 
 ## Quick start
 
-Let's get right to the point!
+Let's get right to the point! Boring text follows, a more exciting video with questionable audio quality can be viewed here:
+
+📽️ [How to use SQLiteWasmHelper to add EF Core 6.0 and SQLite to your Blazor WebAssembly projects](https://youtu.be/ZeJISZgy-FM)
 
 ### Prerequisites
 
