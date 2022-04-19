@@ -21,7 +21,7 @@ data to the back end.
 ## Links
 
 - [MIT license](./LICENSE.txt)
-- [API documentation](./SqlWasmHelper/docs/SqliteWasmHelper.md)
+- [API documentation](https://github.com/JeremyLikness/SqliteWasmHelper/blob/main/SqliteWasmHelper/docs/SqliteWasmHelper.md)
 - [Release notes](./ReleaseNotes.md)
 - [Contributing](./CONTRIBUTING.md)
 - [Code of conduct](./CODE_OF_CONDUCT.md)
