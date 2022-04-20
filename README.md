@@ -122,7 +122,7 @@ const cache = await caches.open('SqliteWasmHelper');
 Now load the database backup from the cache. Swap `things.db` with the filename of *your* database.
 
 ```javascript
-const resp = await.cache.match('/data/cache/things.db');
+const resp = await cache.match('/data/cache/things.db');
 ```
 
 If the `resp` instance is populated, access the underlying blob:
