@@ -4,6 +4,10 @@
 
 Initial release versions.
 
+### 1.1.1-beta
+
+- Added null check to initialization task. This is per issue #4 and enables the scenario of nested components.
+
 ### 1.1-beta
 
 - Modified JavaScript logic to allow any filename or extension
