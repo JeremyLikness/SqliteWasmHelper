@@ -134,7 +134,7 @@ namespace SqliteWasmHelper
             if (startupTask != null)
             {
                 lastStatus = await startupTask;
-                startupTask.Dispose();
+                startupTask?.Dispose();
                 startupTask = null;
             }
         }
