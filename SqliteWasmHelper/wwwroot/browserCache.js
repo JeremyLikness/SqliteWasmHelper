@@ -22,14 +22,14 @@ export async function synchronizeDbWithCache(file) {
 
             if (res) {
                 console.log(`Restoring ${res.byteLength} bytes.`);
-                FS.writeFile(backupPath, new Uint8Array(res));
+                window.Module.FS.writeFile(backupPath, new Uint8Array(res));
                 return 0;
             }
         }
         return -1;
     }
 
-    if (FS.analyzePath(backupPath).exists) {
+    if (window.Module.FS.analyzePath(backupPath).exists) {
 
         const waitFlush = new Promise((done, _) => {
             setTimeout(done, 10);
@@ -37,7 +37,7 @@ export async function synchronizeDbWithCache(file) {
 
         await waitFlush;
 
-        const data = FS.readFile(backupPath);
+        const data = window.Module.FS.readFile(backupPath);
 
         const blob = new Blob([data], {
             type: 'application/octet-stream',
@@ -55,7 +55,7 @@ export async function synchronizeDbWithCache(file) {
 
         await db.cache.put(cachePath, response);
 
-        FS.unlink(backupPath);
+        window.Module.FS.unlink(backupPath);
 
         return 1;
     }
