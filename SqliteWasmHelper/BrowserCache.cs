@@ -20,8 +20,8 @@ namespace SqliteWasmHelper
         /// <param name="jsRuntime">The <see cref="IJSRuntime"/> instance.</param>
         public BrowserCache(IJSRuntime jsRuntime)
         {
-            moduleTask = new (() => jsRuntime.InvokeAsync<IJSObjectReference>(
-                "import", "./_content/SqliteWasmHelper/browserCache.js").AsTask() !);
+            moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>(
+                "import", "./_content/SqliteWasmHelper/browserCache.js").AsTask()!);
         }
 
         /// <summary>
