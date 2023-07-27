@@ -21,16 +21,19 @@ namespace SqliteWasmHelper
         /// <param name="optionsAction">An action used to configure <see cref="DbContextOptions{TContext}"/>.
         /// </param>
         /// <param name="lifetime">Lifetime of the service.</param>
+        /// <param name="migration">See <see cref="Migration"/>.</param>
         /// <returns>The service implementation.</returns>
         public static IServiceCollection AddSqliteWasmDbContextFactory<TContext>(
             this IServiceCollection serviceCollection,
             Action<DbContextOptionsBuilder>? optionsAction = null,
-            ServiceLifetime lifetime = ServiceLifetime.Singleton)
+            ServiceLifetime lifetime = ServiceLifetime.Singleton,
+            Migration? migration = null)
             where TContext : DbContext
         => AddSqliteWasmDbContextFactory<TContext>(
             serviceCollection,
             optionsAction == null ? null : (_, oa) => optionsAction(oa),
-            lifetime);
+            lifetime,
+            migration);
 
         /// <summary>
         /// Add helper factory.
@@ -40,11 +43,13 @@ namespace SqliteWasmHelper
         /// <param name="optionsAction">An action used to configure <see cref="DbContextOptions{TContext}"/>.
         /// </param>
         /// <param name="lifetime">Lifetime of the service.</param>
+        /// <param name="migration">See <see cref="Migration"/>.</param>
         /// <returns>The service implementation.</returns>
         public static IServiceCollection AddSqliteWasmDbContextFactory<TContext>(
        this IServiceCollection serviceCollection,
        Action<IServiceProvider, DbContextOptionsBuilder>? optionsAction,
-       ServiceLifetime lifetime = ServiceLifetime.Singleton)
+       ServiceLifetime lifetime = ServiceLifetime.Singleton,
+       Migration? migration = null)
        where TContext : DbContext
         {
             serviceCollection.TryAdd(
@@ -67,6 +72,8 @@ namespace SqliteWasmHelper
 
             serviceCollection.AddDbContextFactory<TContext>(
                 optionsAction ?? ((s, p) => { }), lifetime);
+
+            serviceCollection.AddSingleton<IMigration>(migration ?? new(false));
 
             return serviceCollection;
         }
