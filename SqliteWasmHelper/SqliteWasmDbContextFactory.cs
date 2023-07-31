@@ -19,6 +19,7 @@ namespace SqliteWasmHelper
         private readonly IDbContextFactory<TContext> dbContextFactory;
         private readonly IBrowserCache cache;
         private readonly ISqliteSwap swap;
+        private readonly bool useMigrations;
         private Task<int>? startupTask = null;
         private int lastStatus = -2;
         private bool init = false;
@@ -29,14 +30,17 @@ namespace SqliteWasmHelper
         /// <param name="dbContextFactory">The EF Core-provided factory.</param>
         /// <param name="cache">The <see cref="BrowserCache"/> helper.</param>
         /// <param name="swap">Service to perform the backup.</param>
+        /// <param name="migration">See <see cref="Migration"/>.</param>
         public SqliteWasmDbContextFactory(
             IDbContextFactory<TContext> dbContextFactory,
             IBrowserCache cache,
-            ISqliteSwap swap)
+            ISqliteSwap swap,
+            IMigration migration)
         {
             this.cache = cache;
             this.dbContextFactory = dbContextFactory;
             this.swap = swap;
+            this.useMigrations = migration.UseMigration();
             startupTask = RestoreAsync();
         }
 
@@ -77,7 +81,15 @@ namespace SqliteWasmHelper
             if (!init)
             {
                 // first time, it should be created
-                await ctx.Database.EnsureCreatedAsync();
+                if (useMigrations)
+                {
+                    await ctx.Database.MigrateAsync();
+                }
+                else
+                {
+                    await ctx.Database.EnsureCreatedAsync();
+                }
+
                 init = true;
             }
 
@@ -145,7 +157,7 @@ namespace SqliteWasmHelper
             await CheckForStartupTaskAsync();
             if (e.EntitiesSavedCount > 0)
             {
-                // unique to avoid conflicts. Is deleted after cahcing.
+                // unique to avoid conflicts. Is deleted after caching.
                 var backupName =
                     $"{SqliteWasmDbContextFactory<TContext>.BackupFile}-{Guid.NewGuid().ToString().Split('-')[0]}";
                 DoSwap(SqliteWasmDbContextFactory<TContext>.Filename, backupName);

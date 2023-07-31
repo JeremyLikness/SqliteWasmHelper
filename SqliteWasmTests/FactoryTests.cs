@@ -16,6 +16,7 @@ namespace SqliteWasmTests
         private readonly MockSwap swap;
         private readonly string filename;
         private readonly string altFilename;
+        private readonly MockMigration mockMigration;
 
         private ISqliteWasmDbContextFactory<TestContext> CreateFactory(
             string? ds = null)
@@ -32,7 +33,8 @@ namespace SqliteWasmTests
             var factory = new SqliteWasmDbContextFactory<TestContext>(
                 dbContextFactory,
                 mockBrowserCache,
-                swap);
+                swap,
+                mockMigration);
             return factory;
         }
 
@@ -42,6 +44,7 @@ namespace SqliteWasmTests
             filename = Guid.NewGuid().ToString();
             altFilename = Guid.NewGuid().ToString();
             swap = new MockSwap();
+            mockMigration = new MockMigration();
         }
 
         [Fact]
