@@ -49,6 +49,18 @@ namespace SqliteWasmHelper
         }
 
         /// <summary>
+        /// Calls the code to restore the database from a given ArrayBuffer.
+        /// </summary>
+        /// <param name="arrayBuffer">The ArrayBuffer containing the database file.</param>
+        /// <param name="filename">The name of the file to process.</param>
+        /// <returns>0 if successful, -1 otherwise.</returns>
+        public async Task<int> ManualRestore(byte[] arrayBuffer, string filename)
+        {
+            var module = await moduleTask.Value;
+            return await module.InvokeAsync<int>("manualRestore", arrayBuffer, filename);
+        }
+
+        /// <summary>
         /// Creates an anchor tag to download the database and injects it into the parent.
         /// </summary>
         /// <param name="parent">The host for the tag.</param>

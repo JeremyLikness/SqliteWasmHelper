@@ -19,6 +19,14 @@ namespace SqliteWasmHelper
         Task<int> SyncDbWithCacheAsync(string filename);
 
         /// <summary>
+        /// Calls the code to restore the database from a given ArrayBuffer.
+        /// </summary>
+        /// <param name="arrayBuffer">The ArrayBuffer containing the database file.</param>
+        /// <param name="filename">The name of the file to process.</param>
+        /// <returns>0 if successful, -1 otherwise.</returns>
+        Task<int> ManualRestore(byte[] arrayBuffer, string filename);
+
+        /// <summary>
         /// Creates an anchor tag to download the database and injects it into the parent.
         /// </summary>
         /// <param name="parent">The host for the tag.</param>

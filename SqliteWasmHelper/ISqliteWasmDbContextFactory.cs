@@ -18,5 +18,12 @@ namespace SqliteWasmHelper
         /// </summary>
         /// <returns>The new context.</returns>
         Task<TContext> CreateDbContextAsync();
+
+        /// <summary>
+        /// Calls the code to restore the database from a given ArrayBuffer.
+        /// </summary>
+        /// <param name="arrayBuffer">The ArrayBuffer containing the database file.</param>
+        /// <returns>0 if successful, -1 otherwise.</returns>
+        Task<int> ManualRestore(byte[] arrayBuffer);
     }
 }

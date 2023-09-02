@@ -99,6 +99,23 @@ namespace SqliteWasmHelper
             return ctx;
         }
 
+        /// <summary>
+        /// Calls the code to restore the database from a given ArrayBuffer.
+        /// </summary>
+        /// <param name="arrayBuffer">The ArrayBuffer containing the database file.</param>
+        /// <returns>0 if successful, -1 otherwise.</returns>
+        public async Task<int> ManualRestore(byte[] arrayBuffer)
+        {
+            var filename = $"{GetFilename()}_bak";
+            int restoreStatus = await cache.ManualRestore(arrayBuffer, filename);
+            if (restoreStatus == 0)
+            {
+                DoSwap(filename, FileNames[typeof(TContext)]);
+            }
+
+            return restoreStatus;
+        }
+
         private void DoSwap(string source, string target) =>
             swap.DoSwap(source, target);
 
