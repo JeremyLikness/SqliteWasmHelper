@@ -52,5 +52,10 @@ namespace SqliteWasmTests.TestHelpers
             }
             return Task.FromResult(SyncDbResult);
         }
+
+        public Task<int> ManualRestore(byte[] arrayBuffer, string filename)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
