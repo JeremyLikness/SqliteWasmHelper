@@ -33,7 +33,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<RepositoryUrl>https://github.com/JeremyLikness/SqliteWasmHelpTargetFrameworker</RepositoryUrl>
+		<RepositoryUrl>https://github.com/JeremyLikness/SqliteWasmHelper</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageProjectUrl>https://github.com/JeremyLikness/SqliteWasmHelper</PackageProjectUrl>
 		<PackageTags>sqlite;ef core;entity framework;blazor;wasm;webassembly</PackageTags>
