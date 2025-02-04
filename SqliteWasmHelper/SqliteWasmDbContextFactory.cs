@@ -21,7 +21,6 @@ namespace SqliteWasmHelper
         private readonly ISqliteSwap swap;
         private readonly bool useMigrations;
         private Task<int>? startupTask = null;
-        private int lastStatus = -2;
         private bool init = false;
 
         /// <summary>
@@ -162,7 +161,7 @@ namespace SqliteWasmHelper
         {
             if (startupTask != null)
             {
-                lastStatus = await startupTask;
+                await startupTask;
                 startupTask?.Dispose();
                 startupTask = null;
             }
@@ -178,14 +177,14 @@ namespace SqliteWasmHelper
                 var backupName =
                     $"{SqliteWasmDbContextFactory<TContext>.BackupFile}-{Guid.NewGuid().ToString().Split('-')[0]}";
                 DoSwap(SqliteWasmDbContextFactory<TContext>.Filename, backupName);
-                lastStatus = await cache.SyncDbWithCacheAsync(backupName);
+                await cache.SyncDbWithCacheAsync(backupName);
             }
         }
 
         private async Task<int> RestoreAsync()
         {
             var filename = $"{GetFilename()}_bak";
-            lastStatus = await cache.SyncDbWithCacheAsync(filename);
+            var lastStatus = await cache.SyncDbWithCacheAsync(filename);
             if (lastStatus == 0)
             {
                 DoSwap(filename, FileNames[typeof(TContext)]);

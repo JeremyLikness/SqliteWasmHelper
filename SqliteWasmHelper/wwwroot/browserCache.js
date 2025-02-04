@@ -16,20 +16,20 @@ export async function synchronizeDbWithCache(file) {
 
         const resp = await db.cache.match(cachePath);
 
-        if (resp && resp.ok) {
+        if (resp?.ok) {
 
             const res = await resp.arrayBuffer();
 
             if (res) {
                 console.log(`Restoring ${res.byteLength} bytes.`);
-                window.Module.FS.writeFile(backupPath, new Uint8Array(res));
+                Blazor.runtime.Module.FS.writeFile(backupPath, new Uint8Array(res));
                 return 0;
             }
         }
         return -1;
     }
 
-    if (window.Module.FS.analyzePath(backupPath).exists) {
+    if (Blazor.runtime.Module.FS.analyzePath(backupPath).exists) {
 
         const waitFlush = new Promise((done, _) => {
             setTimeout(done, 10);
@@ -37,7 +37,7 @@ export async function synchronizeDbWithCache(file) {
 
         await waitFlush;
 
-        const data = window.Module.FS.readFile(backupPath);
+        const data = Blazor.runtime.Module.FS.readFile(backupPath);
 
         const blob = new Blob([data], {
             type: 'application/octet-stream',
@@ -55,7 +55,7 @@ export async function synchronizeDbWithCache(file) {
 
         await db.cache.put(cachePath, response);
 
-        window.Module.FS.unlink(backupPath);
+        Blazor.runtime.Module.FS.unlink(backupPath);
 
         return 1;
     }
@@ -65,11 +65,11 @@ export async function synchronizeDbWithCache(file) {
 export async function generateDownloadLink(parent, file) {
 
     const backupPath = `${file}`;
-    const cachePath = `/data/cache/${file.substring(0, file.indexOf('_bak'))}`;
+    const cachePath = `/data/cache/${file}`;
     const db = window.sqlitedb;
     const resp = await db.cache.match(cachePath);
 
-    if (resp && resp.ok) {
+    if (resp?.ok) {
 
         const res = await resp.blob();
         if (res) {
@@ -100,7 +100,7 @@ export async function manualRestore(arrayBuffer, file) {
 
     if (arrayBuffer) {
         console.log(`Restoring ${arrayBuffer.byteLength} bytes.`);
-        window.Module.FS.writeFile(backupPath, new Uint8Array(arrayBuffer));
+        Blazor.runtime.Module.FS.writeFile(backupPath, new Uint8Array(arrayBuffer));
 
         const blob = new Blob([arrayBuffer], {
             type: 'application/octet-stream',
