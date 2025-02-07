@@ -1,3 +1,6 @@
+> **ALTERNATIVE REPO (we make no claims or endorsements) [https://www.nuget.org/packages/Bit.Besql/](https://www.nuget.org/packages/Bit.Besql/)
+
+
 # SqliteWasmHelper
 
 
